@@ -1,0 +1,3 @@
+[submodule "codeintel/src"]
+	path = codeintel/src
+	url = ./codeintel/src/
