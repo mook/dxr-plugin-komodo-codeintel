@@ -28,3 +28,6 @@
 [submodule "komodo-bits/python-sitelib"]
 	path = komodo-bits/python-sitelib
 	url = ./komodo-bits/python-sitelib/
+[submodule "libs/inflector"]
+	path = libs/inflector
+	url = ./libs/inflector/

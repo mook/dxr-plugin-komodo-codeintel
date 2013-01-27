@@ -273,6 +273,20 @@ ${CIETREE_DIR}/ciElementTree.pyd:                                              \
 all: ${CIETREE_DIR}/ciElementTree.pyd
 
 ###
+# inflector (needed for Ruby codeintel)
+###
+
+INF_DIR := ${OBJDIR}/pylib/inflector
+
+all: ${INF_DIR}/__init__.py
+
+${INF_DIR}/__init__.py:                                                        \
+		inflector/__init__.py                                          \
+		${INF_DIR}/.mkdir                                              \
+		${NULL}
+	tar -cC ${<D} --exclude-vcs . | tar -xpC ${@D} .
+
+###
 # Utilities
 ###
 
