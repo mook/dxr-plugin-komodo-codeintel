@@ -1,3 +1,4 @@
+import errno
 import fnmatch
 import logging
 import multiprocessing
@@ -18,8 +19,12 @@ def post_process(tree, conn):
     """
     DXR plugin hook: run after building the tree
     """
-    cix_dir = os.path.join(tree.temp_folder, "komodo_codeintel", tree.name)
-    os.makedirs(cix_dir)
+    cix_dir = os.path.join(tree.temp_folder, "plugins", "komodo_codeintel")
+    try:
+        os.makedirs(cix_dir)
+    except OSError as ex:
+        if ex.errno != errno.EEXIST:
+            raise
     cmd = [sys.executable, __file__, "--source-folder", tree.source_folder,
            "--output", cix_dir, "--threads", tree.config.nb_jobs,
            "--log-level", str(log.getEffectiveLevel())]
@@ -46,10 +51,6 @@ def fix_module_path():
     # ciElementTree's bootstrap is completely broken; it looked for 'ElementTree'
     # and 'elementtree.ElementTree', but not 'xml.etree.ElementTree'.  Fake it out
     # here so that it runs the bootstrap code, marking it as patched for komodo
-    #import xml.etree.ElementTree
-    #sys.modules['ElementTree'] = sys.modules['xml.etree.ElementTree']
-    #import xml.etree
-    #sys.modules['ElementTree'] = sys.modules['xml.etree']
     import xml.etree
     sys.modules['elementtree'] = sys.modules['xml.etree']
     import ciElementTree
