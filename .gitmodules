@@ -1,3 +1,30 @@
 [submodule "codeintel/src"]
 	path = codeintel/src
 	url = ./codeintel/src/
+[submodule "codeintel/util"]
+	path = codeintel/util
+	url = ./codeintel/util/
+[submodule "libs/pcre"]
+	path = libs/pcre
+	url = ./libs/pcre/
+[submodule "libs/cElementTree"]
+	path = libs/cElementTree
+	url = ./libs/cElementTree/
+[submodule "libs/patches-codeintel"]
+	path = libs/patches-codeintel
+	url = ./libs/patches-codeintel/
+[submodule "libs/patches"]
+	path = libs/patches
+	url = ./libs/patches/
+[submodule "libs/scintilla"]
+	path = libs/scintilla
+	url = ./libs/scintilla/
+[submodule "libs/silvercity"]
+	path = libs/silvercity
+	url = ./libs/silvercity/
+[submodule "komodo-bits/schemes"]
+	path = komodo-bits/schemes
+	url = ./komodo-bits/schemes/
+[submodule "komodo-bits/python-sitelib"]
+	path = komodo-bits/python-sitelib
+	url = ./komodo-bits/python-sitelib/
