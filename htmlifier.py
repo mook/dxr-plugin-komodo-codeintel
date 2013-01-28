@@ -103,9 +103,20 @@ class CiHtmlifier(object):
             yield None
 
 def htmlify(rel_path, text):
-    log.info("htmlifying %s", rel_path)
+    from codeintel2.citadel import CitadelBuffer
+    from codeintel2.common import CodeIntelError
+    from codeintel2.util import guess_lang_from_path
     path = os.path.join(opts.root, rel_path)
-    buf = opts.mgr.buf_from_path(path, lang="Python")
+    try:
+        lang = guess_lang_from_path(path)
+    except CodeIntelError:
+        return None
+    buf = opts.mgr.buf_from_path(path, lang=lang)
+    if not isinstance(buf, CitadelBuffer):
+        log.info("%s: language %s does not have CIX, not htmlifying",
+                 rel_path, lang)
+        return None
+    log.info("htmlifying %s as %s", rel_path, lang)
     return CiHtmlifier(buf)
 
 __all__ = dxr.plugins.htmlifier_exports()
