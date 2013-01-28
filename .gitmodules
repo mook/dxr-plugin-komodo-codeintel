@@ -1,30 +1,30 @@
 [submodule "libs/pcre"]
 	path = libs/pcre
-	url = ./libs/pcre/
+	url = git://github.com/mook/komodo-pcre.git 
 [submodule "libs/cElementTree"]
 	path = libs/cElementTree
-	url = ./libs/cElementTree/
+	url = git://github.com/mook/komodo-cElementTree.git
 [submodule "libs/patches-codeintel"]
 	path = libs/patches-codeintel
-	url = ./libs/patches-codeintel/
+	url = git://github.com/mook/komodo-patches-codeintel.git
 [submodule "libs/patches"]
 	path = libs/patches
-	url = ./libs/patches/
+	url = git://github.com/mook/komodo-patches.git
 [submodule "libs/scintilla"]
 	path = libs/scintilla
-	url = ./libs/scintilla/
+	url = git://github.com/mook/komodo-scintilla.git
 [submodule "libs/silvercity"]
 	path = libs/silvercity
-	url = ./libs/silvercity/
+	url = git://github.com/mook/komodo-SilverCity.git
 [submodule "komodo-bits/schemes"]
 	path = komodo-bits/schemes
-	url = ./komodo-bits/schemes/
+	url = git://github.com/mook/komodo-schemes.git
 [submodule "komodo-bits/python-sitelib"]
 	path = komodo-bits/python-sitelib
-	url = ./komodo-bits/python-sitelib/
+	url = git://github.com/mook/komodo-python-sitelib.git
 [submodule "libs/inflector"]
 	path = libs/inflector
-	url = ./libs/inflector/
+	url = git://github.com/mook/komodo-inflector.git
 [submodule "libs/codeintel2"]
 	path = libs/codeintel2
-	url = ./libs/codeintel2/
+	url = git://github.com/mook/komodo-codeintel2.git
