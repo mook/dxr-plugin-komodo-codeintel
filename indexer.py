@@ -48,8 +48,8 @@ def parse_args(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", "-o", action="store")
     parser.add_argument("--source-folder", "-s", action="store")
-    parser.add_argument("--ignore-patterns", action="append")
-    parser.add_argument("--ignore-paths", action="append")
+    parser.add_argument("--ignore-patterns", action="append", default=[])
+    parser.add_argument("--ignore-paths", action="append", default=[])
     parser.add_argument("--threads", "-j", nargs="?", action="append",
                         default=[], type=int)
     parser.add_argument("--log-level", action="store", default=logging.INFO, type=int)
