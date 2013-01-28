@@ -11,13 +11,13 @@ Building
 1. Check out the plugin into DXR's [plugins][dxr-plugins-dir] directory
 
     ```bash
-    git clone git://github.com/mook/dxr-plugin-komodo-codeintel.git komodo\_codeintel
+    git clone git://github.com/mook/dxr-plugin-komodo-codeintel.git komodo_codeintel
     ```
 
 2. Checkout the needed submodules
 
     ```bash
-    cd komodo\_codeintel
+    cd komodo_codeintel
     git submodule init
     git submodule update
     ```
@@ -25,7 +25,7 @@ Building
 3. Edit DXR's [makefile][dxr-plugins-makefile] to add the new plugin
 
     ```make
-    PLUGINS = clang pygmentize komodo\_codeintel
+    PLUGINS = clang pygmentize komodo_codeintel
     ```
 
 4. Build DXR as normal
