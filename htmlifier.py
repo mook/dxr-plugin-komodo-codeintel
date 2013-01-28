@@ -14,7 +14,7 @@ finally:
 
 opts = Namespace()
 log = logging.getLogger("komodo.ci.htmlifier")
-log.setLevel(logging.DEBUG)
+#log.setLevel(logging.DEBUG)
 
 # Try to set up logging if it isn't already
 logging.basicConfig(stream=sys.stdout)

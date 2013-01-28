@@ -7,6 +7,7 @@ import sys
 import subprocess
 
 log = logging.getLogger("komodo.ci.indexer")
+#log.setLevel(logging.DEBUG)
 
 try:
     sys.path.insert(0, os.path.dirname(__file__))
@@ -102,7 +103,6 @@ def worker(queue, lock, cix_dir, root="/"):
     """
     worker procedure
     """
-    log.setLevel(logging.DEBUG)
     fix_module_path()
     import dxr.mime
     from codeintel2.citadel import CitadelBuffer
