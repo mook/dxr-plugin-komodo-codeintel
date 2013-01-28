@@ -3,11 +3,16 @@ import fnmatch
 import logging
 import multiprocessing
 import os.path
-import pprint
 import sys
 import subprocess
 
-log = logging.getLogger("komodo.ci")
+log = logging.getLogger("komodo.ci.indexer")
+
+try:
+    sys.path.insert(0, os.path.dirname(__file__))
+    from utils import fix_module_path
+finally:
+    sys.path.remove(os.path.dirname(__file__))
 
 def pre_process(tree, environ):
     """
@@ -33,28 +38,6 @@ def post_process(tree, conn):
     for path in tree.ignore_paths:
         cmd.extend(["--ignore-paths", path])
     subprocess.check_call(cmd)
-
-def fix_module_path():
-    """
-    Fix module include paths to make codeintel work
-    """
-    for relpath in (
-            ("obj", "pylib"),
-            ("komodo-bits", "schemes"),
-            ("komodo-bits", "python-sitelib"),
-            ("codeintel", "src", "lib"),
-            ):
-        sys.path.append(os.path.join(os.path.dirname(__file__), *relpath))
-    # this one is for dxr - going up directories doesn't work due to symlinks
-    sys.path.append(os.sep.join(__file__.split(os.sep)[:-3]))
-
-    # ciElementTree's bootstrap is completely broken; it looked for 'ElementTree'
-    # and 'elementtree.ElementTree', but not 'xml.etree.ElementTree'.  Fake it out
-    # here so that it runs the bootstrap code, marking it as patched for komodo
-    import xml.etree
-    sys.modules['elementtree'] = sys.modules['xml.etree']
-    import ciElementTree
-    sys.modules['cElementTree'] = sys.modules['ciElementTree']
 
 def parse_args(argv=None):
     """
@@ -115,7 +98,7 @@ def walk_tree(args, queue):
                     folders.remove(folder)
     queue.put(None) # sentinel to indicate completion
 
-def worker(queue, lock, cix_dir):
+def worker(queue, lock, cix_dir, root="/"):
     """
     worker procedure
     """
@@ -128,6 +111,7 @@ def worker(queue, lock, cix_dir):
     from codeintel2.util import guess_lang_from_path
 
     logging.getLogger("codeintel").setLevel(logging.ERROR)
+    log.info("starting indexing using %s", multiprocessing.current_process().name)
 
     mgr = Manager(db_base_dir=cix_dir)
     #mgr.upgrade()
@@ -140,10 +124,12 @@ def worker(queue, lock, cix_dir):
             queue.put(None) # put it back so others can quit too
             break
 
+        rel_path = os.path.relpath(file_path, root)
+
         try:
             lang = guess_lang_from_path(file_path)
         except CodeIntelError:
-            log.info("%s: Cannot determine language, skipping", file_path)
+            log.info("%s: Cannot determine language, skipping", rel_path)
             continue
 
         # the file
@@ -157,10 +143,10 @@ def worker(queue, lock, cix_dir):
         buf = mgr.buf_from_path(file_path, lang=lang)
         if not isinstance(buf, CitadelBuffer):
             log.info("%s: language %s does not have CIX, skipping",
-                     file_path, lang)
+                     rel_path, lang)
             continue
 
-        log.info("%s: Using language %s", file_path, lang)
+        log.info("%s: Using language %s", rel_path, lang)
 
         buf.scan()
 
@@ -168,7 +154,7 @@ def worker(queue, lock, cix_dir):
 
 
 if __name__ == '__main__':
-    logging.basicConfig()
+    logging.basicConfig(stream=sys.stdout)
     queue = multiprocessing.Queue()
     lock = multiprocessing.Lock()
 
@@ -178,7 +164,8 @@ if __name__ == '__main__':
     for i in range(1, args.threads):
         process = multiprocessing.Process(target=worker,
                                           name="codeintel scanner %s" % (i,),
-                                          args=(queue, lock, args.output))
+                                          args=(queue, lock, args.output),
+                                          kwargs={"root": args.source_folder})
         processes.add(process)
         process.start()
 
