@@ -116,6 +116,10 @@ def htmlify(rel_path, text):
         log.info("%s: language %s does not have CIX, not htmlifying",
                  rel_path, lang)
         return None
+    if lang == "Tcl":
+        # Tcl is busted, it has no async_eval_at_trg; Komodo just plain has a
+        # different system for handling tcl...
+        return None
     log.info("htmlifying %s as %s", rel_path, lang)
     return CiHtmlifier(buf)
 
