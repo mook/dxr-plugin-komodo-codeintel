@@ -140,7 +140,14 @@ def worker(queue, lock, cix_dir, root="/"):
         if not dxr.mime.is_text(file_path, data):
             continue
 
-        buf = mgr.buf_from_path(file_path, lang=lang)
+        try:
+            buf = mgr.buf_from_path(file_path, lang=lang)
+        except CodeIntelError as ex:
+            if ex.message.startswith("File too big."):
+                log.info("%s: %s", file_path, ex.message)
+                continue # Nothing we can do about that, and the user can't
+                         # fix this ever.
+            raise
         if not isinstance(buf, CitadelBuffer):
             log.info("%s: language %s does not have CIX, skipping",
                      rel_path, lang)

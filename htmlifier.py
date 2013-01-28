@@ -4,7 +4,6 @@ import os.path
 import sys
 
 from argparse import Namespace
-from urllib import urlencode
 
 try:
     sys.path.insert(0, os.path.dirname(__file__))
@@ -111,7 +110,14 @@ def htmlify(rel_path, text):
         lang = guess_lang_from_path(path)
     except CodeIntelError:
         return None
-    buf = opts.mgr.buf_from_path(path, lang=lang)
+    try:
+        buf = opts.mgr.buf_from_path(path, lang=lang)
+    except CodeIntelError as ex:
+        if ex.message.startswith("File too big."):
+            log.info("%s: %s", rel_path, ex.message)
+            return None # Nothing we can do about that, and the user can't
+                        # fix this ever.
+        raise
     if not isinstance(buf, CitadelBuffer):
         log.info("%s: language %s does not have CIX, not htmlifying",
                  rel_path, lang)
