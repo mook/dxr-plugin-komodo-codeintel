@@ -1,6 +1,3 @@
-[submodule "codeintel/src"]
-	path = codeintel/src
-	url = ./codeintel/src/
 [submodule "libs/pcre"]
 	path = libs/pcre
 	url = ./libs/pcre/
@@ -28,3 +25,6 @@
 [submodule "libs/inflector"]
 	path = libs/inflector
 	url = ./libs/inflector/
+[submodule "libs/codeintel2"]
+	path = libs/codeintel2
+	url = ./libs/codeintel2/

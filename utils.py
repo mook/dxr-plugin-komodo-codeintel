@@ -11,7 +11,6 @@ def fix_module_path():
             ("obj", "pylib"),
             ("komodo-bits", "schemes"),
             ("komodo-bits", "python-sitelib"),
-            ("codeintel", "src", "lib"),
             ):
         sys.path.append(os.path.join(os.path.dirname(__file__), *relpath))
     # this one is for dxr - going up directories doesn't work due to symlinks

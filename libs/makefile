@@ -286,6 +286,22 @@ ${INF_DIR}/__init__.py:                                                        \
 		${NULL}
 	tar -cC ${<D} --exclude-vcs . | tar -xpC ${@D} .
 
+
+###
+# codeintel2 - the actual library from Komodo
+###
+
+CI2_DIR := ${OBJDIR}/pylib/codeintel2
+
+all: ${CI2_DIR}/__init__.py
+
+${CI2_DIR}/__init__.py:                                                        \
+		codeintel2/__init__.py                                         \
+		${CI2_DIR}/.mkdir                                              \
+		${NULL}
+	tar -cC ${<D} --exclude-vcs . | tar -xpC ${@D} .
+
+
 ###
 # Utilities
 ###
