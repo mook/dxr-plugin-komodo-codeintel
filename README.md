@@ -27,9 +27,10 @@ Building
     ```make
     PLUGINS = clang pygmentize komodo_codeintel
     ```
-
-4. Build DXR as normal
-5. Make sure to enable the komodo_codeintel plugin in your DXR configuration
+4. Make sure you have Python 2 headers.
+   In Ubuntu, this is the `python-dev` package.
+5. Build DXR as normal
+6. Make sure to enable the komodo_codeintel plugin in your DXR configuration
 
 [dxr-plugins-dir]: https://github.com/mozilla/dxr/tree/testing/plugins
 [dxr-plugins-makefile]: https://github.com/mozilla/dxr/blob/testing/makefile#L1
