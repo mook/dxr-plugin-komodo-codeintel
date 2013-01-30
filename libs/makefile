@@ -10,6 +10,10 @@ clean:
 	rm -rf "${OBJDIR}/"
 .PHONY: clean
 
+ifeq (,$(wildcard codeintel2/*))
+  $(error "Please run `git submodule init` and `git submodule update` first")
+endif
+
 ###
 # Scintilla
 ###
